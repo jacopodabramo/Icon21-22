@@ -4,7 +4,7 @@ from preprocessing.amenities import amenities_matrix
 
 
 def datasetBuilding(dataframe):
-    amenities_reducted = amenities_matrix(dataframe, (len(dataframe) / 3)).astype("boolean")
+    amenities_reducted = amenities_matrix(dataframe, (len(dataframe) / 3))
     cols_to_be_dropped = [
                     "id",
                     "host_identity_verified",
@@ -96,7 +96,7 @@ def datasetBuilding(dataframe):
 
 
 def main():
-    dataframe = pd.read_csv("../datasets/cleaning_dataset.csv")
+    dataframe = pd.read_csv("../datasets/cleaned_dataset.csv")
     print("dataset preprocessing for the belief network")
     bn_dataset = datasetBuilding(dataframe)
 

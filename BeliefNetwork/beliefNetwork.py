@@ -2,7 +2,7 @@ from pgmpy.readwrite import XMLBIFReader
 from pgmpy.inference import VariableElimination
 import re
 
-from pyasn1.type.univ import Null
+
 
 
 class BeliefNetwork:
@@ -49,7 +49,7 @@ def main():
                     print("{:<15} {:<15}".format(key, value))
             except Exception as e:
                 print("Error: " + e.__str__())
-            response = Null
+            response = None
             while response != 'y' and response != 'n':
                 print("Do you want to insert another query? (y/n): ")
                 response = input().lower()

@@ -28,7 +28,6 @@ def amenities_matrix(dataframe, treshold):
             lista.append(amenities)
     for element in lista:
         del w_count[element]
-    print(w_count)
     bow = list(w_count.keys())
 
     #definisco un dizionario
@@ -56,13 +55,8 @@ def amenities_matrix(dataframe, treshold):
         amenities_matrix[i, :] = writer(row, columns, indexAmenities)
         i += 1
 
-    amenities_dataframe = pd.DataFrame(amenities_matrix, columns=list(indexAmenities.keys())).astype(int)
+    amenities_dataframe = pd.DataFrame(amenities_matrix, columns=list(indexAmenities.keys())).astype("boolean")
     amenities_dataframe.columns = [cleaning_column(text) for text in list(amenities_dataframe.columns)]
-    cols_to_be_dropped = []
-    for i in range(0, len(amenities_dataframe.columns)):
-        if amenities_dataframe.iloc[:, 1].sum() < treshold:
-            cols_to_be_dropped.append(amenities_dataframe.columns[i])
-    amenities_dataframe.drop(cols_to_be_dropped, axis=1, inplace=True)
 
     return amenities_dataframe
 
