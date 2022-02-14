@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from preprocessing.amenities import amenities_matrix
+from BeliefNetwork.amenities import amenities_matrix
 
 
 def datasetBuilding(dataframe):
@@ -20,7 +20,6 @@ def datasetBuilding(dataframe):
                     "review_scores_value",
                     "instant_bookable",
                     "name",
-                    "description",
                     "host_response_time",
                     "host_verifications",
                     "property_type",

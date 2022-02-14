@@ -54,7 +54,7 @@ def cleaning_dataset(dataframe):
                           "calculated_host_listings_count_private_rooms",
                           "calculated_host_listings_count_shared_rooms", "reviews_per_month","host_has_profile_pic",
                           "host_acceptance_rate","host_listings_count","host_total_listings_count","review_scores_accuracy",
-                          "review_scores_checkin","review_scores_communication"
+                          "review_scores_checkin","review_scores_communication","description","name"
                           ], axis=1)
     dataframe = dataframe[dataframe.property_type.isin(['Entire apartment', 'Private room in apartment',
                                                'Private room in house', 'Private room in townhouse',

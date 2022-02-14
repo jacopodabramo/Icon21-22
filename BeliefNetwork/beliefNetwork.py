@@ -8,13 +8,23 @@ import re
 class BeliefNetwork:
     model = None
     inference_method = None
-    beliefNet_structure = '../datasets/belief_network_structure_3_parents.xml'
-    data_path = '../datasets/bn_dataset.csv'
+    beliefNet_structure = None
+    data_path = './datasets/bn_dataset.csv'
 
-    def __init__(self):
+    def __init__(self,i):
+        self.parents(i)
         reader = XMLBIFReader(self.beliefNet_structure)
         self.model = reader.get_model()
         self.inference_method = VariableElimination(self.model)
+
+    def parents(self,i):
+        if i == 1:
+            self.beliefNet_structure = './datasets/belief_network_structure_1_parents.xml'
+        elif i == 2:
+            self.beliefNet_structure = './datasets/belief_network_structure_2_parents.xml'
+        elif i == 3:
+            self.beliefNet_structure = './datasets/belief_network_structure_3_parents.xml'
+
 
     def inference(self, preferences_dictionary):
         results_dictionary = {}

@@ -59,7 +59,7 @@ class KnowledgeBase:
                         if value[features[i]] != "nan":
                             file.write(features[i] + "(" + str(value["id"]) + ',' + str(value[features[i]]).strip() + ').\n')
             except Exception as e:
-                print("Exception " + str(e))
+                print("Exception " + str(value['id'])  + str(e))
 
         file.close()
 
@@ -68,11 +68,6 @@ class KnowledgeBase:
 
         file = open(self.kbPath, "a")
         print('Creating Rules...')
-
-        file.write('room_for_couples(X) :- bedrooms(X,1.0), room_type(X,"private_room").\n')
-        file.write('is_available(X):- has_availability(X), instant_bookable(X).\n')
-        file.write('room_for_family(Room,Children) :- beds(Room,Beds), Beds is (1.0+Children).\n')
-        file.write('connections(X,Y) :- amenities(X,Y),member(Y,["wifi","cable tv"]).\n')
 
         #regole per la permanenza
         file.write('max(Room,Range):-  maximum_nights(Room,Maximum_nights), Maximum_nights >= Range.\n')
@@ -93,11 +88,11 @@ class KnowledgeBase:
         file.write('best_hosts(Result) :- findall(Room, is_host_top_quality(Room), Result).\n')
 
         #regole per il prezzo
-        file.write('class("top_level",P) :- P>700.0.\n')
-        file.write('class("expensive",P) :- P>200.0,P=<700.0 .\n')
-        file.write('class("medium",P) :- P>50.0,P=<200.0 .\n')
-        file.write('class("affordable",P) :- P>30.0,P=<50.0 .\n')
-        file.write('class("economy",P) :- P=<30.0 .\n')
+        file.write('class("top_level",P) :- P>675.0.\n')
+        file.write('class("expensive",P) :- P>200.0,P=<675.0 .\n')
+        file.write('class("medium",P) :- P>55.0,P=<200.0 .\n')
+        file.write('class("affordable",P) :- P>40.0,P=<50.0 .\n')
+        file.write('class("economy",P) :- P=<40.0 .\n')
         file.write('same_price_range(R1,R2) :- price(R1,P1), price(R2,P2), class(C1,P1), class(C2,P2), C1=C2.\n')
         file.write('same_amenities(R1,R2,A) :- amenities(R1,A), amenities(R2,A).\n')
         file.write('price_range(Room,Range) :- price(Room,Price), class(Range,Price).\n')
@@ -128,6 +123,10 @@ class KnowledgeBase:
         file.write('big_room(Room) :- many_bedrooms(Room), many_beds(Room), many_bathrooms(Room).\n')
         file.write('small_room(Room) :- few_bedrooms(Room), few_beds(Room), few_bathrooms(Room).\n')
 
+        #camere particolari
+        file.write('room_for_couples(X) :- bedrooms(X,1.0), room_type(X,"private_room").\n')
+        file.write('is_available(X):- has_availability(X), instant_bookable(X).\n')
+
         # Trovare tutte le camere grandi e piccole
         file.write('big_rooms(Result) :- findall(X, big_room(X), Result).\n')
         file.write('small_rooms(Result) :- findall(X, small_room(X), Result).\n')
@@ -135,6 +134,10 @@ class KnowledgeBase:
         # Data una camera capire se è grande e piccola e se rispetta il prezzo inserito
         file.write('big_room_price(Room,Range) :- many_bedrooms(Room), many_beds(Room), price_range(Room,Range).\n')
         file.write('small_room_price(Room,Range) :- few_bedrooms(Room), few_beds(Room), price_range(Room,Range).\n')
+
+        #servizi
+        file.write('room_for_family(Room,Children) :- beds(Room,Beds), Beds is (1.0+Children).\n')
+        file.write('connections(X,Y) :- amenities(X,Y),member(Y,["wifi","cable tv"]).\n')
 
         # Trovare tutte le camere in base alla dimensione e alla classe di prezzo
         file.write('big_rooms_price(Range,Result) :- findall(X, big_room_price(X,Range), Result).\n')
