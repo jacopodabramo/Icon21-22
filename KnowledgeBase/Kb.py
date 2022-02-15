@@ -4,7 +4,6 @@ import pandas as pd
 from os import path, remove
 from sys import argv
 
-
 class KnowledgeBase:
     """
     Classe per la gestione della Knowledge Base
@@ -23,6 +22,9 @@ class KnowledgeBase:
         self.kbPath = '.\datasets\kb.pl'
 
     def KbCreation(self,max=-1):
+
+        #definizione degli assiomi della kb
+
         file = open(self.kbPath, "a")
         pd.set_option('display.max_rows', 1000)
 
@@ -64,6 +66,7 @@ class KnowledgeBase:
         file.close()
 
     def RulesCreation(self):
+
         # creazione delle regole all'interno della base di conoscenza
 
         file = open(self.kbPath, "a")
@@ -81,9 +84,6 @@ class KnowledgeBase:
 
 
         #regole per un host particolarmente affidabile
-        # da aggiustare
-        #file.write('reviews(Room,Reviews) :- number_of_reviews(Room,Reviews), Reviews >= 50.\n')
-        #file.write('response(Room,Response) :- host_response_rate(Room,Response), Response >= 95.\n')
         file.write('is_host_top_quality(Room) :-  host_is_superhost(Room), number_of_reviews(Room,Reviews), host_response_rate(Room,Response),Reviews >= 50, Response >=95 .\n')
         file.write('best_hosts(Result) :- findall(Room, is_host_top_quality(Room), Result).\n')
 
@@ -101,11 +101,9 @@ class KnowledgeBase:
         file.write('room_cooking(Room) :-  amenities(Room,"kitchen"), amenities(Room,"cooking basics"), amenities(Room,"oven").\n')
         file.write('cooking(Result) :- findall(X,room_cooking(X),Result).\n')
 
-
         #Data una camera si vogliono sapere i numeri di letti
         file.write('few_beds(Room) :- beds(Room,Beds), Beds =< 3.\n')
         file.write('many_beds(Room) :- beds(Room,Beds), Beds > 3.\n')
-
 
         # Capire se un appartemanto ha tante camera da letto
         file.write('few_bedrooms(Room) :- bedrooms(Room,Bedrooms), Bedrooms =< 2.\n')
@@ -159,7 +157,9 @@ class KnowledgeBase:
         file.write('centered_room_price_range(Room,Range) :- is_center(Room,1),price_range(Room,Range) .\n')
         file.write('centered_rooms_price_range(Range,Result) :- findall(X, centered_room_price_range(X,Range), Result).\n')
 
+        #regole basate su cluster
         file.write('similar_rooms(X,Y) :- cluster(X,C), cluster(Y,D), C = D.')
+
         file.close()
 
 

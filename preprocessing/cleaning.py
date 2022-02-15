@@ -3,23 +3,9 @@ import re
 from sys import argv
 import numpy as np
 from os import path
-
 from sklearn.impute import SimpleImputer
-
-"""
-Knowledge base: prezzo,letti:(famigla ,ragazzi),numero bagni, superhost, centro, 
-                rating,permanenza(breve,lunga) tra minimo notti,
-                Rating = stampiamo per ordine di Rating
-
-
-Belief Network: inserisce le proprietà che piacciono all'utente e predice quale potrebbe essere una stanza che potrebbero
-                piacere all'utente
-    Features: usiamo stesse features della Knowledge base 
-              viene aggiunta la colonna di booleani che ci indica se un hotel si trova vicino al centro
-            
-Clustering: ?
-
-"""
+from bayesianDataframePreprocessing import datasetBuilding
+from clusteringDataframePreprocessing import *
 
 def is_center(column,center):
     """
@@ -61,44 +47,39 @@ def cleaning_dataset(dataframe):
                                                'Entire condominium', 'Entire house', 'Entire loft',
                                                'Entire townhouse', 'Entire rental unit'])]
 
-    # elimino le colonne dove le bedrooms non sono inserite, non avrebbe senso prendere in
-    # considerazioni hotel dove i letti non sono inseriti
     dataframe = dataframe.drop(dataframe[dataframe.bedrooms.isnull()].index)
     dataframe["bedrooms"] = dataframe["bedrooms"].astype('int')
 
-    #elimino spazi sostituendoli con l'underscore
     dataframe['property_type'] = dataframe.property_type.apply(lambda c: re.sub(' ', '_', c))
     dataframe['room_type'] = dataframe.room_type.apply(lambda c: re.sub(' ', '_', c))
 
-    #cancello tutto quello che sta dopo il trattino
     dataframe["neighbourhood_cleansed"] = dataframe["neighbourhood_cleansed"].apply(lambda c: re.sub('[\s][-][\s][\S]+', '', c))
     dataframe["neighbourhood_cleansed"] = dataframe["neighbourhood_cleansed"].apply(lambda c: re.sub("[']", '', c)).astype('category')
-    #elimino il $ dal colonna presso e converto in float
+
     dataframe['price'] = dataframe.price.apply(lambda c: re.sub('[$,]', '', c)).astype('float')
 
-    # nei letti inserisco valori numerici e inserisco la media per le celle vuote
+    # nell'attributo beds completo le celle vuote con la media e casto ad int
     dataframe["beds"] = SimpleImputer(strategy='median').fit_transform(dataframe[["beds"]]).round()
     dataframe["beds"] = dataframe["beds"].astype('int')
 
-    # nei bagni inserisco valori numerici e inserisco la media per le celle vuote arrotondandole
+    # nell'attributo bathrooms_test completo le celle vuote con la media arrotondandole
     most_frequent = SimpleImputer(strategy='most_frequent')
     dataframe.loc[:, 'bathrooms_text'] = most_frequent.fit_transform(dataframe[['bathrooms_text']])
     dataframe["bathrooms_text"] = dataframe.bathrooms_text.apply(lambda c : re.sub('[a-z]*', '', c)).astype('float').round()
 
-    # Operazione discretizzazione sulle boolean
-
+    #discretizzazione sulle boolean
     dataframe['host_is_superhost'] = dataframe.host_is_superhost.apply(lambda c: 1 if c == 't' else 0)
     dataframe['has_availability'] = dataframe.has_availability.apply(lambda c: 1 if c == 't' else 0)
     dataframe['instant_bookable'] = dataframe.instant_bookable.apply(lambda c: 1 if c == 't' else 0)
     dataframe['host_identity_verified'] = dataframe.host_identity_verified.apply(lambda c: 1 if c == 't' else 0)
 
-    # inserisco la media nei rating vuoti
+    # inserisco la media nelle celle vuote dell'attributo review_score_rating
     dataframe["review_scores_rating"] = SimpleImputer(strategy='median').fit_transform(dataframe[["review_scores_rating"]])
 
-    # riutilizziamo una colonna dove inseriamo booleani per capire se un hotel è vicino o no al centro.
+    # riutilizziamo una colonna in cui inseriamo valore booleani per capire se un hotel è vicino o no al centro.
     dataframe = dataframe.rename(columns={'neighbourhood': 'is_center'})
 
-    # quartieri del centro
+    # quartieri che si trovono in centro a milano
     center = ["NAVIGLI", "SARPI", "BUENOS AIRES", "MAGENTA", "CENTRALE", "DUOMO", "BRERA", "TICINESE",
               "WASHINGTON", "GUASTALLA", "XXII MARZO", "ISOLA", "LORETO", "DE ANGELI",
               "BOVISASCA", "PORTA ROMANA", "TORTONA", "GARIBALDI REPUBBLICA", "GHISOLFA",
@@ -113,20 +94,30 @@ def cleaning_dataset(dataframe):
     print("Cleaning done.")
     return dataframe
 
-
-
-
 def main():
     try:
+        print("Starting pre processing...")
         dataframe = pd.read_csv(argv[1])
         dataframe = cleaning_dataset(dataframe)
+
+        dataframe.to_csv('./datasets/prolog_dataframe.csv', index=False)
+        cleaned_dataframe = dataframe.copy()
+
+
+        print("Dataset preprocessing for the belief network")
+        bn_dataset = datasetBuilding(dataframe)
+        bn_dataset.to_csv('./datasets/bn_dataset.csv', index=False)
+        print("Pre pocessing Belief Network Done.")
+
+
+        dataframe = clustering_preprocessing(dataframe,cleaned_dataframe)
+
         dataframe.to_csv('./datasets/cleaned_dataset.csv', index=False)
-        # inserire in seguito la creazione del cleaning per la Belief Network
+        print("Pre processing Done.")
     except FileNotFoundError as e:
         print(e)
         print("file not found or wrong directory")
-    except Exception as e:
-        print(e)
-        print("Error...")
+
+
 
 main()

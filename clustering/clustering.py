@@ -3,6 +3,7 @@ from sys import argv
 
 import matplotlib.pyplot as plt
 import pandas as pd
+import seaborn
 from seaborn import scatterplot, pairplot
 from sklearn.cluster import KMeans
 from matplotlib.pyplot import xlabel,ylabel,plot,show,title,scatter,legend
@@ -19,12 +20,10 @@ def k_cluster(dataframe,k,max):
 
     km = KMeans(n_clusters=k,max_iter=max)
     clusters = km.fit_predict(dataframe)
-
     return clusters
 
 def elbow_plot(dataframe,it):
     """
-
     :param dataframe:
     :param it: numero di iterate
     questa funzione serve per trovare la lista delle somma al quadrato all'aumentare delle iterate
@@ -42,8 +41,7 @@ def elbow_plot(dataframe,it):
     title("Elbow graphic")
     xlabel('k')
     ylabel('Sum of squared error')
-
-    plot(l,sq)
+    plot(l,sq,'-ok')
     show()
 
 def plot_result(dataframe):
@@ -69,14 +67,15 @@ def main():
         dataframe = pd.read_csv(argv[1])
         k = int(argv[2])  # number of cluster
         it = int(argv[3]) # number of iterations
-
-        features = ['bathrooms_text', 'beds', 'bedrooms', 'price', 'maximum_nights','is_center','minimum_nights']
-        clusters = k_cluster(dataframe[features], k, it)
+        clusters = k_cluster(dataframe, k, it)
+        print(dataframe.columns)
         #print(clusters)
-        dataframe['cluster'] = clusters
-        dataframe.to_csv('./datasets/prolog_dataframe.csv',index = False)
-        #elbow_plot(dataframe[features],10)
+        df_prolog = pd.read_csv('./datasets/prolog_dataframe.csv')
+        df_prolog['cluster'] = clusters
+        df_prolog.to_csv('./datasets/prolog_dataframe.csv',index = False)
+        #elbow_plot(dataframe,10)
         #plot_result(dataframe)
+        #plt.scatter(dataframe[0][0])
         print("Clustering Done.")
 
     except FileNotFoundError as e:

@@ -1,7 +1,3 @@
-"""
-    File per gestire la User Interface
-"""
-
 import pandas as pd
 import pyswip as psw
 from os import path
@@ -19,10 +15,8 @@ def BF_help():
     print dell'help della Belief Network
     :return:
     """
-    print("Inserire evidenze per la belief network nel seguente formato:")
-    print("nomeAttributo = valore, nomeAttributo = valore, ...\n"
-          "i nomi degli attributi devono essere scritti in minuscolo\n")
-    print("Attributi discreti disponibili: \n"
+
+    print("discrete attributes available: \n"
           "- class_of_price  --> values{economy,affordable,medium,expensive,top_level} \n"
           "- host_response_rate --> values{never_responds,usually_responds,often_responds,always_responds}\n"
           "- number_of_reviews --> values{no_reviews,few_reviews,some_reviews,lot_of_reviews}\n"
@@ -35,7 +29,7 @@ def BF_help():
           "COMASINA,BOVISASCA,PARCO AGRICOLO SUD,PARCO NORD,BICOCCA,CHIARAVALLE,QUINTO ROMANO,TRIULZO SUPERIORE,BRUZZANO,FIGINO,PARCO DEI NAVIGLI,\n"
           "CANTALUPA,TRENNO,PARCO DELLE ABBAZIE,GIARDINI PORTA VENETA,PARCO BOSCO IN CITTÂ}\n")
 
-    print("Attributi booleani disponibili:\n"
+    print("boolean attributes available:\n"
           "- host_is_superhost\n"
           "- is_center\n"
           "- cooking_basics\n"
@@ -61,7 +55,11 @@ def BF_help():
          "- oven\n"
          "- dishwasher\n"
          "- microwave\n"
-         "- coffe_maker\n")
+         "- coffe_maker")
+
+    print("Insert evidences for the belief network respecting the following format:")
+    print("AttributeName = value, AttributeName = value, ...\n"
+          "name of attributes must be written in lowercase \n")
 
 def correct_input(a):
     command = input().lower().strip()
@@ -143,9 +141,7 @@ def kbquery():
 
 
 def help():
-    """
-    print dell' help generale per l'utente
-    """
+    #help generale per l'utente
     print("This is a list of command:")
     print("'query' to insert a query in KB")
     print("'inference' to do inference with Belief Network")

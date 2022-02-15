@@ -2,9 +2,6 @@ from pgmpy.readwrite import XMLBIFReader
 from pgmpy.inference import VariableElimination
 import re
 
-
-
-
 class BeliefNetwork:
     model = None
     inference_method = None
@@ -25,7 +22,6 @@ class BeliefNetwork:
         elif i == 3:
             self.beliefNet_structure = './datasets/belief_network_structure_3_parents.xml'
 
-
     def inference(self, preferences_dictionary):
         results_dictionary = {}
         result = self.inference_method.query(variables = ['review_scores_rating'], evidence = preferences_dictionary)
@@ -44,7 +40,6 @@ class BeliefNetwork:
             value = str(item.split("=")[1])
             preferences_dictionary[key] = value
         return preferences_dictionary
-
 
 def main():
     b = BeliefNetwork()
@@ -68,7 +63,3 @@ def main():
         else:
             print("Incorrect string form")
 
-
-
-if __name__ == '__main__':
-    main()
