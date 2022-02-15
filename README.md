@@ -28,6 +28,6 @@ Installare le dipendenze:
  
  User Interface <br>
 
-<code> python UI/ui.py </code>
+<code> python BeliefNetwork/ui.py </code>
 
 
