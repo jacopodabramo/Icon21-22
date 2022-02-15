@@ -9,7 +9,7 @@ Installare SWIProlog (installare la versione a 64 bit)
 
 Clonare il progetto 
 
-<code>git clone </code>
+<code>git clone https://github.com/jacopodabramo/Icon21-22.git</code>
 
 Creare l'ambiente virtuale
 
