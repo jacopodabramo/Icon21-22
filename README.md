@@ -8,6 +8,10 @@ Creare l'ambiente virtuale
 
 <code> python -m venv icon21-22 </code>
 
+Installare le dipendenze:
+
+<code>pip install -r requirements.txt</code>
+
 **Importante eseguire i run nell'ordine in cui sono posti almeno per la prima volta**<br>
 
  Fase di preprocessing <br>
