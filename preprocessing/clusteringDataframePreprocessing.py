@@ -29,9 +29,7 @@ def clustering_preprocessing(dataframe,cleaned_dataframe):
     features = pca.transform(dataframe)
     dataframe = pd.DataFrame(features)
     scaler = MinMaxScaler()
-    print("Min Max scaler ....")
     dataframe = pd.DataFrame(scaler.fit_transform(dataframe), columns=dataframe.columns)
     dataframe.round(10)
-    print("Scaler Done.")
-
+   
     return dataframe
