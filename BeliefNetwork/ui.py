@@ -54,11 +54,12 @@ def BF_help():
          "- oven\n"
          "- dishwasher\n"
          "- microwave\n"
-         "- coffe_maker")
+         "- coffee_maker")
 
     print("Insert evidences for the belief network respecting the following format:")
     print("AttributeName = value, AttributeName = value, ...\n"
-          "name of attributes must be written in lowercase \n")
+          "name of attributes must be written in lowercase")
+    print("Ex: host_is_superhost = True, class_of_price = economy\n")
 
 def correct_input(a):
     command = input().lower().strip()
@@ -142,6 +143,7 @@ def kbquery():
 def help():
     #help generale per l'utente
     print("This is a list of command:")
+    print("'help' to print the list of commands")
     print("'query' to insert a query in KB")
     print("'inference' to do inference with Belief Network")
     print("'quit' to exit\n")
