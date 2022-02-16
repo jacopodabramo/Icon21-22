@@ -1,8 +1,8 @@
 # Icon21-22
 Repository per il progetto di Ingegneria della Conoscenza realizzato da:
-- Cassano Lorenzo
-- D'Abramo Jacopo
-- D'Orsi Domenico
+- Cassano Lorenzo (mat.718331)
+- D'Abramo Jacopo (mat.716484)
+- D'Orsi Domenico (mat.718938)
 
 # Esecuzione 
 ## Fase iniziale
