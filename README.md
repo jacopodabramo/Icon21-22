@@ -15,7 +15,7 @@ Creare l'ambiente virtuale
 
 <code> cd Icon21-22 </code>
 
-<code> python -m venv icon21-22 </code>
+<code> python -m venv Icon21-22 </code>
 
 Installare le dipendenze:
 
