@@ -10,9 +10,9 @@ class KnowledgeBase:
     Attributi di classe: boolean,skip,list,categories che rappresentano le liste delle features
     """
     boolean = ['has_availability', 'instant_bookable', 'host_identity_verified', 'host_is_superhost','is_center']
-    skip = ['description', 'neighbourhood_group_cleansed','host_response_time','review_scores_location','review_scores_value','review_scores_cleanliness']
+    skip = ['neighbourhood_group_cleansed','host_response_time','review_scores_location','review_scores_value','review_scores_cleanliness']
     list = ['host_verifications', 'amenities']
-    categories = ['name','property_type','room_type','neighbourhood_cleansed','cluster']
+    categories = ['property_type','room_type','neighbourhood_cleansed','cluster']
 
 
     def __init__(self,dataframe):
@@ -171,7 +171,6 @@ def main():
         kb.RulesCreation()
         print("Knowledge Base done.")
     except FileNotFoundError as e:
-        print(e)
-        print("Error file")
+        print("Error file" + e)
 
 main()

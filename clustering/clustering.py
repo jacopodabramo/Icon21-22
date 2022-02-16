@@ -3,11 +3,9 @@ from sys import argv
 
 import matplotlib.pyplot as plt
 import pandas as pd
-import seaborn
-from seaborn import scatterplot, pairplot
 from sklearn.cluster import KMeans
-from matplotlib.pyplot import xlabel,ylabel,plot,show,title,scatter,legend
-from sklearn.preprocessing import MinMaxScaler
+from matplotlib.pyplot import xlabel,ylabel,plot,show,title
+
 
 def k_cluster(dataframe,k,max):
     """
@@ -44,23 +42,6 @@ def elbow_plot(dataframe,it):
     plot(l,sq,'-ok')
     show()
 
-def plot_result(dataframe):
-    """
-    :param dataframe: dataframe già modifcato con il numero dei clusters
-    :return:
-    plot del grafico che mostra i risultati
-    """
-    fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(16, 10))
-    scatterplot(x="beds", y="bedrooms", data=dataframe, hue="cluster", palette="Accent", ax=ax1,
-                legend=False)
-    scatterplot(x="maximum_nights", y="minimum_nights", data=dataframe, hue="cluster", palette="Accent", ax=ax2,
-                legend=False)
-    scatterplot(x="is_center", y="price", data=dataframe, hue="cluster", palette="Accent", ax=ax3,
-                legend=False)
-    scatterplot(x="bathrooms_text", y="bedrooms", data=dataframe, hue="cluster", palette="Accent", ax=ax4,
-                legend=False)
-
-    plt.show()
 
 def main():
     try:
@@ -68,14 +49,10 @@ def main():
         k = int(argv[2])  # number of cluster
         it = int(argv[3]) # number of iterations
         clusters = k_cluster(dataframe, k, it)
-        print(dataframe.columns)
-        #print(clusters)
         df_prolog = pd.read_csv('./datasets/prolog_dataframe.csv')
         df_prolog['cluster'] = clusters
         df_prolog.to_csv('./datasets/prolog_dataframe.csv',index = False)
-        #elbow_plot(dataframe,10)
-        #plot_result(dataframe)
-        #plt.scatter(dataframe[0][0])
+        #elbow_plot(dataframe,it)
         print("Clustering Done.")
 
     except FileNotFoundError as e:

@@ -13,7 +13,6 @@ prg = psw.Prolog()
 def BF_help():
     """
     print dell'help della Belief Network
-    :return:
     """
 
     print("discrete attributes available: \n"

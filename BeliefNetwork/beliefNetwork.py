@@ -1,6 +1,5 @@
 from pgmpy.readwrite import XMLBIFReader
 from pgmpy.inference import VariableElimination
-import re
 
 class BeliefNetwork:
     model = None
@@ -16,7 +15,7 @@ class BeliefNetwork:
 
     def parents(self,i):
         if i == 1:
-            self.beliefNet_structure = './datasets/belief_network_structure_1_parents.xml'
+            self.beliefNet_structure = './datasets/belief_network_structure_1_parent.xml'
         elif i == 2:
             self.beliefNet_structure = './datasets/belief_network_structure_2_parents.xml'
         elif i == 3:
@@ -41,25 +40,5 @@ class BeliefNetwork:
             preferences_dictionary[key] = value
         return preferences_dictionary
 
-def main():
-    b = BeliefNetwork()
-    while True:
-        print("Insert your preferences: ")
-        preferences = input().replace(' ', '')
-        if re.match('((([a-z]+)([_]([a-z]+))*)([=])(([a-z|A-Z]+)([_]([a-z]+))*)([,]*))+', preferences):
-            try:
-                results = b.inference(b.compute_query(preferences))
-                print("{:<15} {:<15}".format('RATING', 'PROBABILITY'))
-                for key, value in results.items():
-                    print("{:<15} {:<15}".format(key, value))
-            except Exception as e:
-                print("Error: " + e.__str__())
-            response = None
-            while response != 'y' and response != 'n':
-                print("Do you want to insert another query? (y/n): ")
-                response = input().lower()
-            if response == 'n':
-                break
-        else:
-            print("Incorrect string form")
+
 

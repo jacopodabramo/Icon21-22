@@ -1,21 +1,7 @@
 import pandas as pd
-from matplotlib.pyplot import show
-from plotly import plot
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import MinMaxScaler
 from amenities import amenities_matrix
-
-
-def variance_plot(var):
-    l = []
-    for i in range(0, len(var)):
-        sum = 0
-        for j in range(0,len(var[i])):
-            sum = sum + var[i][j]
-        l.append(sum)
-    print(l)
-    plot(var, range(0,len(l)))
-    show()
 
 
 
@@ -41,8 +27,7 @@ def clustering_preprocessing(dataframe,cleaned_dataframe):
     pca = PCA(n_components=20)
     pca.fit(dataframe)
     features = pca.transform(dataframe)
-    pca_dframe = pd.DataFrame(features)
-    #variance_plot(pca.components_)
+    dataframe = pd.DataFrame(features)
     scaler = MinMaxScaler()
     print("Min Max scaler ....")
     dataframe = pd.DataFrame(scaler.fit_transform(dataframe), columns=dataframe.columns)

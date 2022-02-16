@@ -3,6 +3,13 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
+        <entry key="\datasets\cl.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\datasets\cleaned_dataset.csv">
           <value>
             <Attribute>
@@ -11,13 +18,6 @@
           </value>
         </entry>
         <entry key="\datasets\listings.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="\datasets\prolog_dataset.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
